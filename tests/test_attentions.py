@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .adapters import run_attention_forward  # mantém seu adapter
+from .adapters import run_attention_forward 
 from basics.attentions import MultiHeadSelfAtt, GroupedQuerySelfAtt, MultiQuerySelfAtt
 
 # ------------------------------------------------------------
@@ -15,11 +15,9 @@ from basics.attentions import MultiHeadSelfAtt, GroupedQuerySelfAtt, MultiQueryS
 ATT_TYPES = ["mhsa", "gqa", "mqa"]
 
 def _device():
-    # Retorna 'cuda' se disponível — útil para marcar testes opcionais GPU/autocast
     return "cuda" if torch.cuda.is_available() else "cpu"
 
 def _kwargs(att_type: str, n_head: int = 4, n_kv_head: int | None = None):
-    # Monta kwargs específicos por variante; GQA requer n_kv_head.
     kw = {"n_head": n_head}
     if att_type == "gqa":
         kw["n_kv_head"] = n_kv_head if n_kv_head is not None else 2
